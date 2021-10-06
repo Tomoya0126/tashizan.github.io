@@ -1,0 +1,134 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+
+        <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+        <title>たし算</title>
+        <link rel="stylesheet" type="text/css" href="tashizan.css" />
+    </head>
+    <body>
+        <div class="bg-pattern Cross">
+            <!--関数-->
+            <script>
+                //変数
+                var timePass;
+            
+                let state = {
+                    answer: 0,
+                    success: 0
+                };
+                //ホーム画面に戻る
+                function home() {
+                    location.replace("https://tomoya0126.github.io/home.github.io/")
+                }
+                //ゲームをリセット
+                function init() {
+                    location.reload();
+                }
+                //画面遷移
+                function changeScene(hiddenScene, visibleScene) {
+                    hiddenScene.classList.add("is-hidden");
+                    hiddenScene.classList.remove("is-visible");
+                    visibleScene.classList.add("is-visible");
+                }
+                //正解数カウント
+                function correctAnswer() {
+                    state.success++;
+                }
+                //タイマーの中身
+                function time() {
+                    timePass++;
+                    var msg = timePass;
+                    document.getElementById("timeArea").innerHTML = msg;
+                }
+
+                //経過時間の代入
+                function timeAnswer() {
+                    var msg1 = (Date.now() - timeStart)/1000;
+                    msg1 = msg1.toFixed(1);
+                    document.getElementById("timeAnswer").innerHTML = msg1;
+                }
+
+                //ゲーム開始・タイマー開始・開始時刻取得
+                function gameStart() {
+                    changeScene(sceneTop, sceneGame);
+
+                    //タイマー開始
+                    timePass = 0;
+                    timeID = setInterval('time()', 1000);
+
+                    //開始時刻取得
+                    timeStart = Date.now();
+                }
+                //ゲーム終了
+                function gameEnd() {
+                    changeScene(sceneGame, sceneResult);
+                    numResult.innerHTML = state.success;
+                    btnReset.addEventListener("click", init, false);
+                }
+            </script>
+            <!--トップ画面-->
+            <div id="sceneTop" class="top screen">
+                <ptitle>たし算を解きましょう</ptitle><p>
+                <p1 class="px">出題されるたし算の答えを回答しましょう</p1><p>
+                <button class="btn btn-green btn-cubic btn-shadow" id="btnStart">Game Start</button><p>
+                <input class="btn btn-blue btn-cubic btn-shadow" type="button" value="ホーム画面に戻る"  onclick="home()">
+            </div>
+            <!--ゲーム画面-->
+            <div id="sceneGame" class="game screen">
+                <ptitle>問題</ptitle>
+                <!--答え合わせ-->
+                <SCRIPT TYPE="text/javascript">
+                    function kotaeawase(){
+                        answer=new Array(10)
+                        for(i=0; i<10; i++){
+                            answer[i]=eval(form1.kotae[i].value)
+                            if(a[i]+b[i] == answer[i]) {
+                                form1.kotae[i].style.backgroundColor="#00ffff"
+                                correctAnswer();
+                            }
+                            else{
+                            form1.kotae[i].style.backgroundColor="#ff0000"
+                            }
+                        }
+                        //タイマー終了
+                        clearInterval(timeID);
+                        timeAnswer();
+                    }
+                </script>
+                <!--問題画面作成-->
+                <form name="form1">
+                    <p1 class="px">
+                        <p>経過時間：<span id = "timeArea"></span>秒経過<p></p>
+                        <SCRIPT TYPE="text/javascript">
+                            a=new Array(10)
+                            b=new Array(10)
+                            for(i=0; i<10; i++)
+                            {
+                                a[i]=Math.floor(Math.random()*9+1)
+                                b[i]=Math.floor(Math.random()*9+1)
+                                document.write(a[i],"+",b[i],"＝")
+                                document.write("<input name='kotae'><p>")
+                            }
+                        </SCRIPT>
+                        <!--ボタン配置-->
+                        <input class="btn btn-yellow btn-cubic btn-shadow" type="button" value="答え合わせ" onclick="kotaeawase()">
+                        <input class="btn btn-green btn-cubic btn-shadow" type="button" value="リザルト画面へ" onclick="gameEnd()">
+                    </p>
+                </form>
+            </div>
+
+            <div id="sceneResult" class="result screen">
+                <ptitle>リザルト画面</ptitle><p></p>
+                <p1 class="px">
+                    <p>正解数は<span id="numResult"></span>問です。</p>
+                    <p>回答時間は<span id="timeAnswer"></span>秒です。</p>
+                    <button class="btn btn-yellow btn-cubic btn-shadow" id="btnReset">Reset</button>
+                    <input class="btn btn-blue btn-cubic btn-shadow" type="button" value="ホーム画面に戻る" onclick="home()">
+                </p>
+            </div>
+
+            <script src="tashizan.js"></script>
+        </div>
+    </body>
+</html>
