@@ -6,7 +6,7 @@ window.onload = function() {
  const checkTime = function() {
     let previousMinutes;
     const options = {
-        body: "「Game Start」でゲームを始める。1つ前に戻りたい場合は「ホーム画面に戻る」",
+        body: "「Game Start」→「答え合わせ」→「リザルト画面へ」の順で進めます。「Reset」はこのゲームの最初の画面に移動",
         icon: "bell.png"
     };
     return function() {
